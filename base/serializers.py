@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User, Group
 from .models import Profile, Task, TaskElement, TaskConflict
 from rest_framework import serializers
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,13 +30,14 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TaskElementSerializer(serializers.ModelSerializer):
+class TaskElementSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = TaskElement
-        fields = '__all__'
+        geo_field = "element_geom"
+        exclude = ('is_imported',)
 
-
-class TaskConflictSerializer(serializers.ModelSerializer):
+class TaskConflictSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = TaskConflict
-        fields = '__all__'
+        geo_field = "conflict_geom"
+        exclude = ('is_fixed',)

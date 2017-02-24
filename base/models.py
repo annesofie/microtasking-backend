@@ -32,6 +32,10 @@ class Task(models.Model):
 
 class TaskElement(models.Model):
     tasks = models.ManyToManyField(Task, related_name='task_element')
+    title = models.CharField(max_length=200)
+    info1 = models.CharField(max_length=200)
+    info2 = models.CharField(max_length=200)
+    info3 = models.CharField(max_length=200)
     element_name = models.CharField(max_length=200)
     element_geom = MultiPolygonField(null=True, blank=True)
     json = JSONField(blank=True)
@@ -43,6 +47,10 @@ class TaskElement(models.Model):
 
 class TaskConflict(models.Model):
     tasks = models.ManyToManyField(Task, related_name='task_conflict')
+    title = models.CharField(max_length=200, default='No title')
+    info1 = models.CharField(max_length=200)
+    info2 = models.CharField(max_length=200)
+    info3 = models.CharField(max_length=200)
     conflict_name = models.CharField(max_length=200)
     conflict_geom = MultiPolygonField(null=True, blank=True)
     json = JSONField(blank=True)

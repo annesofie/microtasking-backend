@@ -43,10 +43,11 @@ INSTALLED_APPS = [
 
     # Third party
     'rest_framework',
+    'rest_framework_gis',
 
     #Own
-    'base.apps.BaseConfig',
-    'polls.apps.PollsConfig',
+    'base',
+    'polls',
 ]
 
 MIDDLEWARE = [
