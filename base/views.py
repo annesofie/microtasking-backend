@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from .models import Profile, Task
+from .models import Profile, Task, TaskElement
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from base.serializers import UserSerializer, GroupSerializer, ProfileSerializer, TaskSerializer, TaskElementSerializer, \
@@ -67,6 +67,18 @@ class TaskViewSet(viewsets.ModelViewSet):
         task = self.get_object()
         task_conflicts = task.get_all_task_conflicts()
         serializer = TaskConflictSerializer(task_conflicts, many=True)
+        return Response(serializer.data)
+
+
+class TaskElementConflictViewSet(viewsets.ModelViewSet):
+    queryset = TaskElement.objects.all()
+    serializer_class = TaskElementSerializer
+
+    @detail_route(methods=['get'], url_path='conflict')
+    def get_conflict_in_task(self, request, pk):
+        task = self.get_object()
+        conflict = task.conflict
+        serializer = TaskConflictSerializer(conflict)
         return Response(serializer.data)
 
 

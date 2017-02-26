@@ -36,6 +36,7 @@ class TaskElementSerializer(GeoFeatureModelSerializer):
         geo_field = "element_geom"
         exclude = ('is_imported',)
 
+
 class TaskConflictSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = TaskConflict

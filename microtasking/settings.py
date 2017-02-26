@@ -95,7 +95,7 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 database_name = os.environ.get('DATABASE_NAME', 'microtask-db')
 database_host = os.environ.get('DATABASE_HOST', 'localhost')
-database_user = os.environ.get('DATABASE_USER', 'AnneSofie')
+database_user = os.environ.get('DATABASE_USER', 'annesofie')
 database_password = os.environ.get('DATABASE_PASSWORD', '123456')
 
 DATABASES = {

@@ -22,11 +22,9 @@ class Task(models.Model):
         ordering = ('has_reward', 'num_of_elements',)
 
     def get_all_task_elements(self):
-        # return TaskObject.objects.filter(task=self)
         return self.task_element.all()
 
     def get_all_task_conflicts(self):
-        # return TaskObject.objects.filter(task=self)
         return self.task_conflict.all()
 
 
@@ -47,6 +45,7 @@ class TaskElement(models.Model):
 
 class TaskConflict(models.Model):
     tasks = models.ManyToManyField(Task, related_name='task_conflict')
+    element = models.OneToOneField(TaskElement, related_name='conflict', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, default='No title')
     info1 = models.CharField(max_length=200)
     info2 = models.CharField(max_length=200)

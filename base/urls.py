@@ -8,6 +8,8 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'profile', views.ProfileViewSet)
 router.register(r'tasks', views.TaskViewSet)
+router.register(r'task', views.TaskElementConflictViewSet)
+
 
 urlpatterns = [
 ]
