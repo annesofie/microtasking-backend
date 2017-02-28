@@ -31,6 +31,7 @@ class Task(models.Model):
 class TaskElement(models.Model):
     tasks = models.ManyToManyField(Task, related_name='task_element')
     title = models.CharField(max_length=200)
+    building_nr = models.IntegerField(null=True, blank=True)
     info1 = models.CharField(max_length=200)
     info2 = models.CharField(max_length=200)
     info3 = models.CharField(max_length=200)
@@ -47,6 +48,7 @@ class TaskConflict(models.Model):
     tasks = models.ManyToManyField(Task, related_name='task_conflict')
     element = models.OneToOneField(TaskElement, related_name='conflict', on_delete=models.CASCADE)
     title = models.CharField(max_length=200, default='No title')
+    building_nr = models.IntegerField(null=True, blank=True)
     info1 = models.CharField(max_length=200)
     info2 = models.CharField(max_length=200)
     info3 = models.CharField(max_length=200)
