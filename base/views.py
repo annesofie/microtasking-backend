@@ -1,7 +1,9 @@
 # Create your views here.
+from django.conf import settings
+from django.core.cache import cache
 from django.http import HttpResponse, request
 from django.contrib.auth.models import User, Group
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
@@ -49,6 +51,20 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+    @list_route(url_path='order')
+    def get_task_order(self, request):
+        set_list = settings.TASK_SET_ORDER
+        last_index = cache.get('last_index')
+        if not last_index:
+            cache.set('last_index', 0)
+            last_index = 0
+
+        current_task_set = set_list[last_index]
+        last_index = last_index + 1 if last_index < len(set_list)-1 else 0
+        cache.set('last_index', last_index)
+
+        return Response(current_task_set)
 
     @detail_route(methods=['get'], url_path='elements')
     def get_task_elements(self, request, pk):
