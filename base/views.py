@@ -1,18 +1,13 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.http import HttpResponse, request
 from django.contrib.auth.models import User, Group
 from rest_framework.decorators import detail_route
-from rest_framework.generics import RetrieveAPIView, GenericAPIView
-from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from .models import Profile, Task, TaskElement
+from .models import Profile, Task, TaskElement, Participant
 from rest_framework import viewsets
-from rest_framework.views import APIView
-from base.serializers import UserSerializer, GroupSerializer, ProfileSerializer, TaskSerializer, TaskElementSerializer, \
+from base.serializers import ParticipantSerializer, UserSerializer, GroupSerializer, ProfileSerializer, TaskSerializer, TaskElementSerializer, \
     TaskConflictSerializer
 
 
@@ -80,6 +75,11 @@ class TaskElementConflictViewSet(viewsets.ModelViewSet):
         conflict = task.conflict
         serializer = TaskConflictSerializer(conflict)
         return Response(serializer.data)
+
+
+class ParticipantViewSet(viewsets.ModelViewSet):
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantSerializer
 
 
 def update_profile(request, user_id):

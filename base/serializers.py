@@ -1,7 +1,7 @@
 # used for our data representations
 
 from django.contrib.auth.models import User, Group
-from .models import Profile, Task, TaskElement, TaskConflict
+from .models import Profile, Task, TaskElement, TaskConflict, Participant
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
@@ -34,11 +34,17 @@ class TaskElementSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = TaskElement
         geo_field = "element_geom"
-        exclude = ('is_imported',)
+        exclude = ('tasks',)
 
 
 class TaskConflictSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = TaskConflict
         geo_field = "conflict_geom"
-        exclude = ('is_fixed',)
+        exclude = ('tasks',)
+
+
+class ParticipantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Participant
+        fields = '__all__'

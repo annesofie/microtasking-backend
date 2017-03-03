@@ -8,6 +8,17 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+class Participant(models.Model):
+    age = models.IntegerField(default=0)
+    gender = models.CharField(max_length=100)
+    experienced = models.BooleanField(default=False)
+    nationality = models.CharField(max_length=200)
+    know_microtasking = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nationality
+
+
 class Task(models.Model):
     title = models.CharField(max_length=200, blank=True)
     description = models.TextField()

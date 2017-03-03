@@ -5,10 +5,16 @@ from django.contrib.gis.admin import OSMGeoAdmin
 from django.contrib.gis.gdal import DataSource
 from django.contrib.gis.geos import MultiPolygon
 
-from .models import TaskConflict, TaskElement, Task
+from .models import TaskConflict, TaskElement, Task, Participant
 
 
 # Register your models here.
+@admin.register(Participant)
+class ParticipantAdmin(admin.ModelAdmin):
+    list_filter = ['experienced']
+    search_fields = ['age']
+
+
 @admin.register(TaskElement)
 class ElementTaskAdmin(OSMGeoAdmin):
     def save_model(self, request, obj, form, change):
