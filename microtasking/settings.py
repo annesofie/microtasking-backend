@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     #Own
     'base',
     'polls',
+    'survey_results',
 ]
 
 MIDDLEWARE = [

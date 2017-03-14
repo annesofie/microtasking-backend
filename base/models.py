@@ -1,13 +1,9 @@
-from django.contrib.auth.models import User
 from django.contrib.gis.db.models import PolygonField, MultiPolygonField
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 
+
 # Create your models here.
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-
 class Participant(models.Model):
     age = models.IntegerField(default=0)
     gender = models.CharField(max_length=100)
@@ -16,12 +12,13 @@ class Participant(models.Model):
     know_microtasking = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.nationality
+        return '%s %s' % (self.id, self.gender)
 
 
 class Task(models.Model):
     title = models.CharField(max_length=200, blank=True)
-    description = models.TextField()
+    description_geom = models.TextField()
+    description_meta = models.TextField()
     num_of_elements = models.IntegerField(default=0)
     num_of_conflicts = models.IntegerField(default=0)
     has_reward = models.BooleanField(default=False)
@@ -70,21 +67,3 @@ class TaskConflict(models.Model):
 
     def __str__(self):
         return self.conflict_name
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gender = models.CharField(max_length=200, blank=True)
-    country = models.CharField(max_length=200, blank=True)
-    age = models.IntegerField(null=True, blank=True)
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()

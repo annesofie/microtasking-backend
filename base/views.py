@@ -2,14 +2,14 @@
 from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse, request
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-from .models import Profile, Task, TaskElement, Participant
+from .models import Task, TaskElement, Participant
 from rest_framework import viewsets
-from base.serializers import ParticipantSerializer, UserSerializer, GroupSerializer, ProfileSerializer, TaskSerializer, TaskElementSerializer, \
+from base.serializers import ParticipantSerializer, UserSerializer, TaskSerializer, TaskElementSerializer, \
     TaskConflictSerializer
 
 
@@ -17,7 +17,6 @@ class JSONResponse(HttpResponse):
     """
        An HttpResponse that renders its content into JSON.
     """
-
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
@@ -30,22 +29,6 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().select_related('profile').order_by('-date_joined')
     serializer_class = UserSerializer
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-
-class ProfileViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -98,7 +81,3 @@ class ParticipantViewSet(viewsets.ModelViewSet):
     serializer_class = ParticipantSerializer
 
 
-def update_profile(request, user_id):
-    user = User.objects.get(pk=user_id)
-    user.profile.country = 'Norway'
-    user.save()
