@@ -12,7 +12,7 @@ class Participant(models.Model):
     know_microtasking = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s %s' % (self.id, self.gender)
+        return 'id: %s, gender: %s' % (self.id, self.gender)
 
 
 class Task(models.Model):
@@ -24,7 +24,7 @@ class Task(models.Model):
     has_reward = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        return 'id: %s, title: %s' % (self.id, self.title)
 
     class Meta:
         ordering = ('has_reward', 'num_of_elements',)
