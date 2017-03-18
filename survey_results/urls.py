@@ -4,3 +4,4 @@ from survey_results import views
 
 router = routers.DefaultRouter()
 router.register(r'tasksurvey', views.TasksurveyViewSet)
+router.register(r'taskresult', views.TaskresultViewSet)
