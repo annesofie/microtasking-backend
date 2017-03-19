@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -27,7 +25,6 @@ SECRET_KEY = 'c02j5z0ch!g=ex##le(910!o2qty)cd$m1jql%71@vnz9qqxa$'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 # That holds the names of all Django applications that are activated in this Django instance
@@ -45,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
 
-    #Own
+    # Own
     'base',
     'polls',
     'survey_results',
@@ -101,15 +98,14 @@ database_password = os.environ.get('DATABASE_PASSWORD', '123456')
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'NAME': database_name,
-         'USER': database_user,
-         'PASSWORD': database_password,
-         'HOST': database_host,
-         'PORT': '5432',
-        }
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': database_name,
+        'USER': database_user,
+        'PASSWORD': database_password,
+        'HOST': database_host,
+        'PORT': '5432',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -129,7 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -143,7 +138,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -151,7 +145,7 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-#Task order
+# Task order
 TASK_SET_ORDER = [
     [1, 2, 3],
     [1, 3, 2],
@@ -160,3 +154,8 @@ TASK_SET_ORDER = [
     [3, 1, 2],
     [3, 2, 1]
 ]
+
+try:
+    from .settings_local import *
+except ImportError:
+    pass
