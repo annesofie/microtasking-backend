@@ -12,7 +12,7 @@ class Participant(models.Model):
     know_microtasking = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'id: %s, gender: %s' % (self.id, self.gender)
+        return 'id: %s, experienced: %s' % (self.id, self.experienced)
 
 
 class Task(models.Model):
