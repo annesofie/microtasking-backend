@@ -1,7 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
 #JetBrains
 .idea/
 
 #virtualenv
-.venv/
+.venv
 venv/
+
+# Django stuff:
+*.log
+*.pot
+local_settings.py
