@@ -8,7 +8,7 @@ from django.utils.datetime_safe import datetime
 
 
 class Tasksurvey(models.Model):
-    difficulty = models.CharField(max_length=20, blank=True)
+    difficulty = models.CharField(max_length=20)
     besteffort = models.NullBooleanField(default=None)
     interupted = models.NullBooleanField(default=None)
     comment = models.CharField(max_length=200, blank=True)
