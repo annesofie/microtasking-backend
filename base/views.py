@@ -41,12 +41,12 @@ class TaskViewSet(viewsets.ModelViewSet):
         set_list = settings.TASK_SET_ORDER
         last_index = cache.get('last_index')
         if not last_index:
-            cache.set('last_index', 0)
+            cache.set('last_index', 0, None)
             last_index = 0
 
         current_task_set = set_list[last_index]
         last_index = last_index + 1 if last_index < len(set_list)-1 else 0
-        cache.set('last_index', last_index)
+        cache.set('last_index', last_index, None)
 
         return Response(current_task_set)
 
