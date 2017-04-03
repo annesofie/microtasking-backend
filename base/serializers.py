@@ -33,6 +33,8 @@ class TaskConflictSerializer(GeoFeatureModelSerializer):
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
+    experienced = serializers.BooleanField(required=True)
+    know_microtasking = serializers.BooleanField(required=True)
     class Meta:
         model = Participant
         fields = '__all__'

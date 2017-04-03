@@ -4,6 +4,9 @@ from .models import Tasksurvey, Taskresult
 
 
 class TasksurveySerializer(serializers.ModelSerializer):
+    besteffort = serializers.BooleanField(required=True)
+    interupted = serializers.BooleanField(required=True)
+
     class Meta:
         model = Tasksurvey
         fields = '__all__'

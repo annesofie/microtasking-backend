@@ -8,15 +8,15 @@ from django.utils.datetime_safe import datetime
 
 
 class Tasksurvey(models.Model):
-    difficulty = models.CharField(max_length=20, blank=True)
-    besteffort = models.NullBooleanField(default=None)
-    interupted = models.NullBooleanField(default=None)
+    difficulty = models.CharField(max_length=20)
+    besteffort = models.NullBooleanField(default=False)
+    interupted = models.NullBooleanField(default=False)
     comment = models.CharField(max_length=200, blank=True)
     participant = models.ForeignKey('base.Participant')
     task = models.ForeignKey('base.Task')
 
     def __str__(self):
-        return self.difficulty
+        return 'Task: %s, participant: %s' % (self.task, self.participant)
 
 
 class Taskresult(models.Model):
@@ -27,7 +27,7 @@ class Taskresult(models.Model):
     totaltime = models.IntegerField(blank=True)
     correctgeom = models.IntegerField(blank=True)
     correctmetadata = models.IntegerField(blank=True)
-    selectedgeomlayers = JSONField(blank=True)  ### TODO: Should be an list or array?
+    selectedgeomlayers = JSONField(blank=True)
     selectedmetalayers = JSONField(blank=True)
     participant = models.ForeignKey('base.Participant')
     task = models.ForeignKey('base.Task')
