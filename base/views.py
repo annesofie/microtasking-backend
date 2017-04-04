@@ -85,6 +85,8 @@ class ParticipantViewSet(viewsets.ModelViewSet):
 
 
 class BuildingElementsView(APIView):
+    # Get both layers for the building
+
     def get(self, request, building_nr):
         first = TaskElement.objects.get(building_nr=self.kwargs["building_nr"])
         first_serializer = TaskElementSerializer(first)

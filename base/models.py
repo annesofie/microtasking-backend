@@ -1,5 +1,5 @@
 from django.contrib.gis.db.models import PolygonField, MultiPolygonField
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField, ArrayField
 from django.db import models
 
 
@@ -21,6 +21,7 @@ class Task(models.Model):
     description_meta = models.TextField()
     num_of_elements = models.IntegerField(default=0)
     num_of_conflicts = models.IntegerField(default=0)
+    buildings = ArrayField(models.IntegerField())
     has_reward = models.BooleanField(default=False)
 
     def __str__(self):
