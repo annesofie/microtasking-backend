@@ -3,11 +3,13 @@ from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse, request
 from django.contrib.auth.models import User
+from rest_framework import generics
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Task, TaskElement, Participant
+from .models import Task, TaskElement, Participant, TaskConflict
 from rest_framework import viewsets
 from base.serializers import ParticipantSerializer, UserSerializer, TaskSerializer, TaskElementSerializer, \
     TaskConflictSerializer
@@ -17,6 +19,7 @@ class JSONResponse(HttpResponse):
     """
        An HttpResponse that renders its content into JSON.
     """
+
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
@@ -32,7 +35,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
@@ -45,7 +47,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             last_index = 0
 
         current_task_set = set_list[last_index]
-        last_index = last_index + 1 if last_index < len(set_list)-1 else 0
+        last_index = last_index + 1 if last_index < len(set_list) - 1 else 0
         cache.set('last_index', last_index)
 
         return Response(current_task_set)
@@ -71,8 +73,12 @@ class TaskElementConflictViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['get'], url_path='conflict')
     def get_conflict_in_task(self, request, pk):
+        # print(pk)
+        # print(request.query_params.get('username', None))
         task = self.get_object()
+        print(task)
         conflict = task.conflict
+        print(conflict)
         serializer = TaskConflictSerializer(conflict)
         return Response(serializer.data)
 
@@ -82,3 +88,11 @@ class ParticipantViewSet(viewsets.ModelViewSet):
     serializer_class = ParticipantSerializer
 
 
+class BuildingElementsView(APIView):
+    def get(self, request, building_nr):
+        first = TaskElement.objects.get(building_nr=self.kwargs["building_nr"])
+        first_serializer = TaskElementSerializer(first)
+        second = TaskConflict.objects.get(building_nr=self.kwargs["building_nr"])
+        second_serializer = TaskConflictSerializer(second)
+        toreturn = [first_serializer.data, second_serializer.data]
+        return Response(toreturn)
