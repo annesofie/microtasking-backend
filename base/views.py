@@ -73,12 +73,8 @@ class TaskElementConflictViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['get'], url_path='conflict')
     def get_conflict_in_task(self, request, pk):
-        # print(pk)
-        # print(request.query_params.get('username', None))
         task = self.get_object()
-        print(task)
         conflict = task.conflict
-        print(conflict)
         serializer = TaskConflictSerializer(conflict)
         return Response(serializer.data)
 
