@@ -1,4 +1,5 @@
 # Create your views here.
+import random
 from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse, request
@@ -87,10 +88,23 @@ class ParticipantViewSet(viewsets.ModelViewSet):
 class BuildingElementsView(APIView):
     # Get both layers for the building
 
-    def get(self, request, building_nr):
-        first = TaskElement.objects.get(building_nr=self.kwargs["building_nr"])
-        first_serializer = TaskElementSerializer(first)
-        second = TaskConflict.objects.get(building_nr=self.kwargs["building_nr"])
-        second_serializer = TaskConflictSerializer(second)
-        toreturn = [first_serializer.data, second_serializer.data]
-        return Response(toreturn)
+    def post(self, request):
+
+        building_ids = request.data.get('building_numbers')
+
+        layer_list = []
+        for building_id in building_ids:
+            items = [0, 1]
+            random.shuffle(items)
+
+            first = TaskElement.objects.get(building_nr=building_id)
+            first_serializer = TaskElementSerializer(first)
+            second = TaskConflict.objects.get(building_nr=building_id)
+            second_serializer = TaskConflictSerializer(second)
+
+            layer_pair = []
+            layer_pair.insert(items[0], first_serializer.data)
+            layer_pair.insert(items[1], second_serializer.data)
+            layer_list.append(layer_pair)
+
+        return Response(layer_list)

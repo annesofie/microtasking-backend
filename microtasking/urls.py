@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'^api/', include(base_router.urls)),
     url(r'^result/', include(survey_result_router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/buildings/(?P<building_nr>\d+)/$', BuildingElementsView.as_view())
+    url(r'^api/buildings/layers/$', BuildingElementsView.as_view())
 ]
