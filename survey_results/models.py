@@ -27,6 +27,8 @@ class Taskresult(models.Model):
     totaltime = models.IntegerField(blank=True)
     correctgeom = models.IntegerField(blank=True)
     correctmetadata = models.IntegerField(blank=True)
+    correctbuildingnrGeom = ArrayField(models.IntegerField(blank=True), blank=True, null=True)
+    correctbuildingnrMeta = ArrayField(models.IntegerField(blank=True), blank=True, null=True)
     selectedgeomlayers = JSONField(blank=True)
     selectedmetalayers = JSONField(blank=True)
     participant = models.ForeignKey('base.Participant')
