@@ -36,6 +36,15 @@ def dump(qs, outfile_path):
         writer.writerow(row)
 
 
+# --- ALL
+
+def getResultsfromAll():
+    result = Taskresult.objects.all()
+    dump(result, 'allParticipantsResult.csv')
+
+
+# --- Experienced
+
 def getResultsfromExperienced():
     result = Taskresult.objects.filter(participant__experienced=True)
     dump(result, 'experiencedResult.csv')
@@ -46,10 +55,7 @@ def getResultsfromNonExperienced():
     dump(result, 'nonExperiencedResult.csv')
 
 
-def getResultsfromAll():
-    result = Taskresult.objects.all()
-    dump(result, 'allParticipantsResult.csv')
-
+# --- Task Results
 
 def getResultsTaskWithOneElement():
     result = Taskresult.objects.filter(task__num_of_elements=1)
@@ -64,3 +70,17 @@ def getResultsTaskWithThreeElements():
 def getResultsTaskWithSixElements():
     result = Taskresult.objects.filter(task__num_of_elements=6)
     dump(result, 'sixElementTaskResult.csv')
+
+
+# --- GENDER
+
+def getAllMaleResults():
+    result = Taskresult.objects.filter(participant__gender='Male')
+    dump(result, 'allMaleTaskResults.csv')
+
+
+def getAllFemaleResults():
+    result = Taskresult.objects.filter(participant__gender='Female')
+    dump(result, 'allFemaleTaskResults.csv')
+
+
