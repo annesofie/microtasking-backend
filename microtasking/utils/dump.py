@@ -43,6 +43,11 @@ def getResultsfromAll():
     dump(result, 'allParticipantsResult.csv')
 
 
+def getResultsfromAllExcludeTask4():
+    result = Taskresult.objects.exclude(task_id=4)
+    dump(result, 'allParticipantsResultExcludeTask4.csv')
+
+
 # --- Experienced
 
 def getResultsfromExperienced():
@@ -50,9 +55,19 @@ def getResultsfromExperienced():
     dump(result, 'experiencedResult.csv')
 
 
+def getResultsfromExperiencedExcludeTask4():
+    result = Taskresult.objects.filter(participant__experienced=True).exclude(task_id=4)
+    dump(result, 'experiencedResultExcludeTask4.csv')
+
+
 def getResultsfromNonExperienced():
     result = Taskresult.objects.filter(participant__experienced=False)
     dump(result, 'nonExperiencedResult.csv')
+
+
+def getResultsfromNonExperiencedExcludeTask4():
+    result = Taskresult.objects.filter(participant__experienced=False).exclude(task_id=4)
+    dump(result, 'nonExperiencedResultExcludeTask4.csv')
 
 
 # --- Task Results
@@ -79,8 +94,16 @@ def getAllMaleResults():
     dump(result, 'allMaleTaskResults.csv')
 
 
+def getAllMaleResultsExcludeTask4():
+    result = Taskresult.objects.filter(participant__gender='Male').exclude(task_id=4)
+    dump(result, 'allMaleTaskResultsExcludeTask4.csv')
+
+
 def getAllFemaleResults():
     result = Taskresult.objects.filter(participant__gender='Female')
     dump(result, 'allFemaleTaskResults.csv')
 
 
+def getAllFemaleResultsExcludeTask4():
+    result = Taskresult.objects.filter(participant__gender='Female').exclude(task_id=4)
+    dump(result, 'allFemaleTaskResultsExcludeTask4.csv')
