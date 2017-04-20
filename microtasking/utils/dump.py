@@ -1,6 +1,5 @@
 import csv
-from survey_results.models import Taskresult
-
+from survey_results.models import Taskresult, Tasksurvey
 
 def dump(qs, outfile_path):
     """
@@ -107,3 +106,32 @@ def getAllFemaleResults():
 def getAllFemaleResultsExcludeTask4():
     result = Taskresult.objects.filter(participant__gender='Female').exclude(task_id=4)
     dump(result, 'allFemaleTaskResultsExcludeTask4.csv')
+
+
+# --- Task survey
+
+def getParticipantIdsThatDidntTryTheirBest():
+    result = Tasksurvey.objects.filter(besteffort=False)
+    dump(result, 'taskSurveyDidntTryTheirBest')
+
+
+def getAll():
+    getAllFemaleResults()
+    getAllMaleResults()
+    getResultsTaskWithOneElement()
+    getResultsTaskWithThreeElements()
+    getResultsTaskWithSixElements()
+    getResultsfromNonExperienced()
+    getResultsfromExperienced()
+    getResultsfromAll()
+
+
+def getAllExcludeTask4():
+    getAllFemaleResultsExcludeTask4()
+    getAllMaleResultsExcludeTask4()
+    getResultsTaskWithOneElement()
+    getResultsTaskWithThreeElements()
+    getResultsTaskWithSixElements()
+    getResultsfromNonExperiencedExcludeTask4()
+    getResultsfromExperiencedExcludeTask4()
+    getResultsfromAllExcludeTask4()
