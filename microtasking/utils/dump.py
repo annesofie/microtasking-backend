@@ -1,6 +1,7 @@
 import csv
 from survey_results.models import Taskresult, Tasksurvey
 
+
 def dump(qs, outfile_path):
     """
     Takes in a Django queryset and spits out a CSV file.
@@ -47,10 +48,20 @@ def getResultsfromAllExcludeTask4():
     dump(result, 'allParticipantsResultExcludeTask4.csv')
 
 
+def getResultsfromAllExcludeTask4ExcludeParticipant(participantid, participantid2):
+    result = Taskresult.objects.exclude(task_id=4).exclude(participant_id=participantid).exclude(participant_id=participantid2).exclude(participant_id=117)
+    dump(result, 'allParticipantsResultExcludeTask4.csv')
+
+
 # --- Experienced
 
 def getResultsfromExperienced():
     result = Taskresult.objects.filter(participant__experienced=True)
+    dump(result, 'experiencedResult.csv')
+
+
+def getResultsfromTaskIdExperienced(taskid):
+    result = Taskresult.objects.filter(participant__experienced=True).filter(task_id=taskid)
     dump(result, 'experiencedResult.csv')
 
 
@@ -61,6 +72,11 @@ def getResultsfromExperiencedExcludeTask4():
 
 def getResultsfromNonExperienced():
     result = Taskresult.objects.filter(participant__experienced=False)
+    dump(result, 'nonExperiencedResult.csv')
+
+
+def getResultsfromTaskIdNonExperienced(taskid):
+    result = Taskresult.objects.filter(participant__experienced=False).filter(task_id=taskid)
     dump(result, 'nonExperiencedResult.csv')
 
 
