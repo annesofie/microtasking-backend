@@ -1,5 +1,6 @@
 import csv
 from survey_results.models import Taskresult, Tasksurvey
+from base.models import Participant
 
 
 def dump(qs, outfile_path):
@@ -123,12 +124,18 @@ def getAllFemaleResultsExcludeTask4():
     result = Taskresult.objects.filter(participant__gender='Female').exclude(task_id=4)
     dump(result, 'allFemaleTaskResultsExcludeTask4.csv')
 
+# --- AGE
+def getAgeOnTaskResultParticipant():
+    taskresult = Taskresult.objects.all().order_by('participant__age', 'participant_id', 'id')
+    dump(taskresult, 'ageaddedtoTaskResult.csv')
 
 # --- Task survey
 
 def getParticipantIdsThatDidntTryTheirBest():
-    result = Tasksurvey.objects.filter(besteffort=False)
+    result = Tasksurvey.objects.values()
     dump(result, 'taskSurveyDidntTryTheirBest')
+
+# --- Totaltime
 
 
 def getAll():
