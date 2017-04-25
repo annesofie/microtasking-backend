@@ -50,7 +50,8 @@ def getResultsfromAllExcludeTask4():
 
 
 def getResultsfromAllExcludeTask4ExcludeParticipant(participantid, participantid2):
-    result = Taskresult.objects.exclude(task_id=4).exclude(participant_id=participantid).exclude(participant_id=participantid2).exclude(participant_id=117)
+    result = Taskresult.objects.exclude(task_id=4).exclude(participant_id=participantid).exclude(
+        participant_id=participantid2).exclude(participant_id=117)
     dump(result, 'allParticipantsResultExcludeTask4.csv')
 
 
@@ -124,16 +125,29 @@ def getAllFemaleResultsExcludeTask4():
     result = Taskresult.objects.filter(participant__gender='Female').exclude(task_id=4)
     dump(result, 'allFemaleTaskResultsExcludeTask4.csv')
 
-# --- AGE
-def getAgeOnTaskResultParticipant():
-    taskresult = Taskresult.objects.all().order_by('participant__age', 'participant_id', 'id')
-    dump(taskresult, 'ageaddedtoTaskResult.csv')
+
+# --- AGE SORTED
+def get_all_participant_age_ordered():
+    taskresult = Taskresult.objects.all().order_by('participant__age', 'participant_id')
+    dump(taskresult, 'allParticipants_age_sorted.csv')
+
+
+def get_all_participant_age_ordered_exclude_task4():
+    taskresult = Taskresult.objects.exclude(task_id=4).order_by('participant__age', 'participant_id')
+    dump(taskresult, 'allParticipants_age_sorted.csv')
+
+
+def get_all_participant_age_ordered_filter_taskid(taskid):
+    taskresult = Taskresult.objects.filter(task_id=taskid).order_by('participant__age', 'participant_id')
+    dump(taskresult, 'allParticipants_age_sorted.csv')
+
 
 # --- Task survey
 
 def getParticipantIdsThatDidntTryTheirBest():
     result = Tasksurvey.objects.values()
     dump(result, 'taskSurveyDidntTryTheirBest')
+
 
 # --- Totaltime
 
