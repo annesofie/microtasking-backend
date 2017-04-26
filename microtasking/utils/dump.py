@@ -1,4 +1,6 @@
 import csv
+
+from copy import copy
 from survey_results.models import Taskresult, Tasksurvey
 from base.models import Participant
 
@@ -23,8 +25,10 @@ def dump(qs, outfile_path):
     writer = csv.writer(open(outfile_path, 'w'))
 
     headers = []
-    for field in model._meta.fields:
+    fields = list(model._meta.get_fields())
+    for field in fields :
         headers.append(field.name)
+    headers.append('participant_age')
     writer.writerow(headers)
 
     for obj in qs:
@@ -129,17 +133,17 @@ def getAllFemaleResultsExcludeTask4():
 # --- AGE SORTED
 def get_all_participant_age_ordered():
     taskresult = Taskresult.objects.all().order_by('participant__age', 'participant_id')
-    dump(taskresult, 'allParticipants_age_sorted.csv')
+    dump(taskresult, 'allParticipants_age_sorted_excludetask4.csv')
 
 
 def get_all_participant_age_ordered_exclude_task4():
     taskresult = Taskresult.objects.exclude(task_id=4).order_by('participant__age', 'participant_id')
-    dump(taskresult, 'allParticipants_age_sorted.csv')
+    dump(taskresult, 'allParticipants_age_sorted_excludetask4.csv')
 
 
 def get_all_participant_age_ordered_filter_taskid(taskid):
     taskresult = Taskresult.objects.filter(task_id=taskid).order_by('participant__age', 'participant_id')
-    dump(taskresult, 'allParticipants_age_sorted.csv')
+    dump(taskresult, 'allParticipants_age_sorted_excludetask4.csv')
 
 
 # --- Task survey

@@ -2,7 +2,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
-
 # Create your models here.
 from django.utils.datetime_safe import datetime
 
@@ -36,3 +35,8 @@ class Taskresult(models.Model):
 
     def __str__(self):
         return 'Task: %s, date: %s' % (self.task, self.date)
+
+    @property
+    def participant_age(self):
+        return self.participant.age
+
