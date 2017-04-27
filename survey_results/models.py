@@ -17,6 +17,11 @@ class Tasksurvey(models.Model):
     def __str__(self):
         return 'Task: %s, participant: %s' % (self.task, self.participant)
 
+    @property
+    def participant_experienced(self):
+        return self.participant.experienced
+
+
 
 class Taskresult(models.Model):
     date = models.DateTimeField(default=datetime.now)
