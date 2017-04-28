@@ -91,10 +91,10 @@ REST_FRAMEWORK = {
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-database_name = os.environ.get('DATABASE_NAME', 'microtask-db')
-database_host = os.environ.get('DATABASE_HOST', 'localhost')
-database_user = os.environ.get('DATABASE_USER', 'annesofie')
-database_password = os.environ.get('DATABASE_PASSWORD', '123456')
+database_name = os.environ.get('DATABASE_NAME', 'master')
+database_host = os.environ.get('DATABASE_HOST', 'micro-tasking.cjcujaptdbmm.eu-west-1.rds.amazonaws.com')
+database_user = os.environ.get('DATABASE_USER', 'microtaskinguser')
+database_password = os.environ.get('DATABASE_PASSWORD', 'admin1234')
 
 DATABASES = {
     'default': {
