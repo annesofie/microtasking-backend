@@ -22,6 +22,18 @@ class Tasksurvey(models.Model):
     def participant_experienced(self):
         return self.participant.experienced
 
+    @property
+    def participant_age(self):
+        return self.participant.age
+
+    @property
+    def taskresult_totaltime(self):
+        return self.taskresult.totaltime
+
+    @property
+    def taskresult_totalcorrect(self):
+        return self.taskresult.total_correct_elements
+
 
 class Taskresult(models.Model):
     date = models.DateTimeField(default=datetime.now)

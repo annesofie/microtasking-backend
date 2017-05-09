@@ -1,6 +1,7 @@
 import csv
 
 from copy import copy
+from django.db.models import ManyToOneRel
 from pyparsing import basestring
 from survey_results.models import Taskresult, Tasksurvey
 from base.models import Participant
@@ -28,8 +29,9 @@ def dump_taskresult(qs, outfile_path, custom_fields=None):
     headers = []
     fields = list(model._meta.get_fields())
     for field in fields:
-        print(field)
-        headers.append(field.name)
+        if type(field) != ManyToOneRel:
+            print(field)
+            headers.append(field.name)
     if custom_fields:
         for field in custom_fields:
             print(field)
@@ -49,94 +51,6 @@ def dump_taskresult(qs, outfile_path, custom_fields=None):
             row.append(val)
         writer.writerow(row)
 
-
-# --- ALL
-
-def getResultsfromAll():
-    result = Taskresult.objects.all()
-    dump_taskresult(result, 'allParticipantsResult.csv')
-
-
-def getResultsfromAllExcludeTask4():
-    result = Taskresult.objects.exclude(task_id=4)
-    dump_taskresult(result, 'allParticipantsResultExcludeTask4.csv')
-
-
-def getResultsfromAllExcludeTask4ExcludeParticipant(participantid, participantid2):
-    result = Taskresult.objects.exclude(task_id=4).exclude(participant_id=participantid).exclude(
-        participant_id=participantid2).exclude(participant_id=117)
-    dump_taskresult(result, 'allParticipantsResultExcludeTask4.csv')
-
-
-# --- Experienced
-
-def getResultsfromExperienced():
-    result = Taskresult.objects.filter(participant__experienced=True)
-    dump_taskresult(result, 'experiencedResult.csv')
-
-
-def getResultsfromTaskIdExperienced(taskid):
-    result = Taskresult.objects.filter(participant__experienced=True).filter(task_id=taskid)
-    dump_taskresult(result, 'experiencedResult.csv')
-
-
-def getResultsfromExperiencedExcludeTask4():
-    result = Taskresult.objects.filter(participant__experienced=True).exclude(task_id=4)
-    dump_taskresult(result, 'experiencedResultExcludeTask4.csv')
-
-
-def getResultsfromNonExperienced():
-    result = Taskresult.objects.filter(participant__experienced=False)
-    dump_taskresult(result, 'nonExperiencedResult.csv')
-
-
-def getResultsfromTaskIdNonExperienced(taskid):
-    result = Taskresult.objects.filter(participant__experienced=False).filter(task_id=taskid)
-    dump_taskresult(result, 'nonExperiencedResult.csv')
-
-
-def getResultsfromNonExperiencedExcludeTask4():
-    result = Taskresult.objects.filter(participant__experienced=False).exclude(task_id=4)
-    dump_taskresult(result, 'nonExperiencedResultExcludeTask4.csv')
-
-
-# --- Task Results
-
-def getResultsTaskWithOneElement():
-    result = Taskresult.objects.filter(task__num_of_elements=1)
-    dump_taskresult(result, 'oneElementTaskResult.csv')
-
-
-def getResultsTaskWithThreeElements():
-    result = Taskresult.objects.filter(task__num_of_elements=3)
-    dump_taskresult(result, 'threeElementTaskResult.csv')
-
-
-def getResultsTaskWithSixElements():
-    result = Taskresult.objects.filter(task__num_of_elements=6)
-    dump_taskresult(result, 'sixElementTaskResult.csv')
-
-
-# --- GENDER
-
-def getAllMaleResults():
-    result = Taskresult.objects.filter(participant__gender='Male')
-    dump_taskresult(result, 'allMaleTaskResults.csv')
-
-
-def getAllMaleResultsExcludeTask4():
-    result = Taskresult.objects.filter(participant__gender='Male').exclude(task_id=4)
-    dump_taskresult(result, 'allMaleTaskResultsExcludeTask4.csv')
-
-
-def getAllFemaleResults():
-    result = Taskresult.objects.filter(participant__gender='Female')
-    dump_taskresult(result, 'allFemaleTaskResults.csv')
-
-
-def getAllFemaleResultsExcludeTask4():
-    result = Taskresult.objects.filter(participant__gender='Female').exclude(task_id=4)
-    dump_taskresult(result, 'allFemaleTaskResultsExcludeTask4.csv')
 
 
 # --- AGE SORTED
