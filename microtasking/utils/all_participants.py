@@ -1,5 +1,4 @@
 
-
 from .dump import dump_taskresult
 from survey_results.models import Taskresult, Tasksurvey
 
@@ -10,7 +9,7 @@ from survey_results.models import Taskresult, Tasksurvey
 def getResultsfromAllOrderby(field):
     fields = ['participant_age', 'task_id']
     result = Taskresult.objects.all().filter(totaltime__lte=2000).order_by(field)
-    dump_taskresult(result, 'all_orderby_'+field+'.csv', fields)
+    dump_taskresult(result, 'all_orderby_'+ field + '.csv', fields)
 
 
 def getResultsfromAllExcludeTask4():
@@ -21,7 +20,7 @@ def getResultsfromAllExcludeTask4():
 def getResultsfromAllExcludeTask4_Orderby(field):
     fields = ['participant_age', 'task_id']
     result = Taskresult.objects.exclude(task_id=4).filter(totaltime__lte=2000).order_by(field)
-    dump_taskresult(result, 'allExcludeTask4_Orderby_'+field+'.csv', fields)
+    dump_taskresult(result, 'allExcludeTask4_Orderby_' + field + '.csv', fields)
 
 
 def getResultsfromAllExcludeTask4_Filtertotaltime_Orderby(field):
@@ -29,12 +28,21 @@ def getResultsfromAllExcludeTask4_Filtertotaltime_Orderby(field):
     result = Taskresult.objects.exclude(task_id=4).filter(totaltime__lte=2000).order_by(field)
     dump_taskresult(result, 'allExcludeTask4totaltimebiggerthan2000orderby' + field + '.csv', fields)
 
+
 # -- Task Survey
 
-def get_tasksurvey_participants_was_interupted():
-    fields=['task_id', 'participant_age', 'participant_experienced', 'taskresult_totaltime', 'taskresult_totalcorrect']
-    result = Tasksurvey.objects.exclude(interupted=False).order_by('difficulty')
-    dump_taskresult(result, 'all_wasinterupted_orderby_difficulty.csv', fields)
+def get_tasksurvey_participants_was_interupted_orderby(field):
+    fields = ['task_id', 'participant_age', 'participant_experienced', 'taskresult_totaltime',
+              'taskresult_totalcorrect']
+    result = Tasksurvey.objects.exclude(interupted=False).exclude(task_id=4).order_by(field)
+    dump_taskresult(result, 'all_wasinterupted_exclude4_orderby_' + field + '.csv', fields)
+
+
+def get_tasksurvey_participants_was_not_interupted_orderby(field):
+    fields = ['task_id', 'participant_age', 'participant_experienced', 'taskresult_totaltime',
+              'taskresult_totalcorrect']
+    result = Tasksurvey.objects.exclude(interupted=True).exclude(task_id=4).order_by(field)
+    dump_taskresult(result, 'all_was_not_interupted_exclude4_orderby_' + field + '.csv', fields)
 
 
 # --- Task Results
@@ -48,7 +56,7 @@ def getResultsTaskWithOneElement():
 def getResultsTaskWithOneElementOrderby(field):
     fields = ['participant_age', 'task_id']
     result = Taskresult.objects.filter(task__num_of_elements=1).filter(totaltime__lte=2000).order_by(field)
-    dump_taskresult(result, 'oneElementTaskResult_filtertotaltime_'+field+'.csv')
+    dump_taskresult(result, 'oneElementTaskResult_filtertotaltime_' + field + '.csv')
 
 
 def getResultsTaskWithThreeElements():
@@ -60,7 +68,7 @@ def getResultsTaskWithThreeElements():
 def getResultsTaskWithThreeElementsOrderby(field):
     fields = ['participant_age', 'task_id']
     result = Taskresult.objects.filter(task__num_of_elements=3).filter(totaltime__lte=2000).order_by(field)
-    dump_taskresult(result, 'threeElementTaskResult_filtertotaltime_'+field+'.csv')
+    dump_taskresult(result, 'threeElementTaskResult_filtertotaltime_' + field + '.csv')
 
 
 def getResultsTaskWithSixElements():
@@ -72,5 +80,4 @@ def getResultsTaskWithSixElements():
 def getResultsTaskWithSixElementsOrderby(field):
     fields = ['participant_age', 'task_id']
     result = Taskresult.objects.filter(task__num_of_elements=6).filter(totaltime__lte=2000).order_by(field)
-    dump_taskresult(result, 'sixElementTaskResult_filtertotaltime_'+field+'.csv')
-
+    dump_taskresult(result, 'sixElementTaskResult_filtertotaltime_' + field + '.csv')
