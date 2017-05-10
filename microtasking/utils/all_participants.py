@@ -41,8 +41,15 @@ def get_tasksurvey_participants_was_interupted_orderby(field):
 def get_tasksurvey_participants_was_not_interupted_orderby(field):
     fields = ['task_id', 'participant_age', 'participant_experienced', 'taskresult_totaltime',
               'taskresult_totalcorrect']
-    result = Tasksurvey.objects.exclude(interupted=True).exclude(task_id=4).order_by(field)
+    result = Tasksurvey.objects.exclude(interupted=True).exclude(task_id=4).filter(taskresult__totaltime__lte=2000).order_by(field)
     dump_taskresult(result, 'all_was_not_interupted_exclude4_orderby_' + field + '.csv', fields)
+
+
+def get_tasksurvey_participants_was_not_interupted_taskid_orderby(taskid, field):
+    fields = ['task_id', 'participant_age', 'participant_experienced', 'taskresult_totaltime',
+              'taskresult_totalcorrect']
+    result = Tasksurvey.objects.exclude(interupted=True).filter(task_id=taskid).filter(taskresult__totaltime__lte=2000).order_by(field)
+    dump_taskresult(result, 'all_was_not_interupted_taskid'+taskid+'_orderby_' + field + '.csv', fields)
 
 
 # --- Task Results
