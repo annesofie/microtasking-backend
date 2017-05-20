@@ -1,10 +1,32 @@
+from django.db.models import Count, Avg
 
 from .dump import dump_taskresult
 from survey_results.models import Taskresult, Tasksurvey
-
+from base.models import Participant
 
 
 # --- ALL
+
+def get_results_from_participant_completed():
+    participants = Participant.objects.annotate(task_count=Count('taskresult'))
+    participants = participants.distinct()
+    print(participants.count())
+    participants = participants.filter(task_count__gte=4)
+    print(participants.count())
+    print(participants.filter(tasksurvey__interupted=False).distinct().count())
+
+
+def get_gender_count(gender):
+    participants = Participant.objects.filter(gender=gender)
+    participants = participants.distinct().aggregate(Avg('age'))
+    print(participants)
+
+
+def get_know_MT_count():
+    participants = Participant.objects.filter(experienced=True)
+    participants = participants.distinct()
+    print(participants.count())
+
 
 def getResultsfromAllOrderby(field):
     fields = ['participant_age', 'task_id']
@@ -88,3 +110,4 @@ def getResultsTaskWithSixElementsOrderby(field):
     fields = ['participant_age', 'task_id']
     result = Taskresult.objects.filter(task__num_of_elements=6).filter(totaltime__lte=2000).order_by(field)
     dump_taskresult(result, 'sixElementTaskResult_filtertotaltime_' + field + '.csv')
+

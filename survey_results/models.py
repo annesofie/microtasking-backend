@@ -27,6 +27,10 @@ class Tasksurvey(models.Model):
         return self.participant.age
 
     @property
+    def participant_gender(self):
+        return self.participant.gender
+
+    @property
     def taskresult_totaltime(self):
         return self.taskresult.totaltime
 
