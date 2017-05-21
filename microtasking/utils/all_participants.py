@@ -22,6 +22,23 @@ def get_gender_count(gender):
     print(participants)
 
 
+def get_difficulty_avg(task, is_exp):
+    taskres = Taskresult.objects.filter(task__id=task)
+    print(taskres.count())
+    surveyres = Tasksurvey.objects.filter(task__id=task).filter(participant__experienced=is_exp)
+    print(surveyres.count())
+    surveyres = surveyres.distinct().aggregate(Avg('difficulty'))
+    print(surveyres)
+
+
+def get_taskorder_avg(taskorder, taskid):
+    taskres = Taskresult.objects.filter(taskordernumber=taskorder).distinct()
+    print(taskres.count())
+    taskres = taskres.filter(task__id=taskid)
+    print(taskres.count())
+
+
+
 def get_know_MT_count():
     participants = Participant.objects.filter(experienced=True)
     participants = participants.distinct()
